@@ -53,4 +53,21 @@ function setproxyinteractive{
 
 }
 
-setproxyinteractive
+$table = @{
+	"hostel" = "http://172.16.199.40:8080"
+	"library" = "http://172.16.199.20:8080"
+	"h9" = "http://172.16.199.41:8080"
+}
+
+$proxyserver=$args[0]
+
+if($proxyserver -eq "unset"){
+	unsetproxy;
+}
+elseif($proxyserver -in $table.Keys){
+	setproxy($table[$proxyserver])
+}
+else{
+	echo "No proxy server found";
+	setproxyinteractive;
+}
