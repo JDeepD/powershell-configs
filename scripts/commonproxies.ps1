@@ -5,44 +5,19 @@ $unset = New-Object System.Management.Automation.Host.ChoiceDescription '&unset'
 
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($hostel, $lib, $h9, $unset)
 
-$title = 'Select Proxy Server: '
-$message = 'Configure Proxies for: npm, git'
-$result = $host.ui.PromptForChoice($title, $message, $options, 0)
-
-switch($result){
-	0 {
-		echo 'Setting Proxy to http://172.16.199.40:8080';
+function setproxy($proxyserver){
+		echo 'Setting Proxy to' $proxyserver;
 		echo 'Setting git proxy...';
-		git config --global http.proxy http://172.16.199.40:8080;
-		git config --global https.proxy http://172.16.199.40:8080;
+		git config --global http.proxy $proxyserver;
+		git config --global https.proxy $proxyserver;
 		echo 'Done...';
 		echo 'Setting npm proxy...';
-		npm config set proxy http://172.16.199.40:8080; 
+		npm config set proxy $proxyserver;
 		echo 'Done...';
-	}
+}
 
-	1 {
-		echo 'Setting Proxy to http://172.16.199.20:8080';
-		echo 'Setting git proxy...';
-		git config --global http.proxy http://172.16.199.20:8080;
-		git config --global https.proxy http://172.16.199.20:8080;
-		echo 'Done...';
-		echo 'Setting npm proxy...';
-		npm config set proxy http://172.16.199.20:8080;
-		echo 'Done...';
-	}
+function unsetproxy{
 
-	2 {
-		echo 'Setting Proxy to http://172.16.199.21:8080';
-		echo 'Setting git proxy...';
-		git config --global http.proxy http://172.16.199.21:8080;
-		git config --global https.proxy http://172.16.199.21:8080;
-		echo 'Done...';
-		echo 'Setting npm proxy...';
-		npm config set proxy http://172.16.199.41:8080;
-		echo 'Done...';
-	}
-	3 {
 		echo 'Unsetting git proxy vars...';
 		git config --global --unset http.proxy;
 		git config --global --unset https.proxy;
@@ -50,6 +25,32 @@ switch($result){
 		echo 'Unsetting npm proxy vars...'
 		npm config rm proxy;
 		echo 'Done...';
+}
+
+
+function setproxyinteractive{
+	$title = 'Select Proxy Server: '
+	$message = 'Configure Proxies for: npm, git'
+	$result = $host.ui.PromptForChoice($title, $message, $options, 0)
+
+	switch($result){
+		0 {
+			setproxy("172.16.199.40:8080")
+		}
+
+		1 {
+			setproxy("172.16.199.20:8080")
+		}
+
+		2 {
+			setproxy("172.16.199.41:8080");
+		}
+		3 {
+			unsetproxy;
+		}
+
 	}
 
 }
+
+setproxyinteractive
