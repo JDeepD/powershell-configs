@@ -1,0 +1,19 @@
+{
+	"profiles" : [
+		{
+			"name" : "&Hostel",
+			"proxyserver" : "http://172.16.199.40",
+			"proxyport" : "8080"
+		},
+		{
+			"name" : "&Library",
+			"proxyserver" : "http://172.16.199.20",
+			"proxyport" : "8080"
+		},
+		{
+			"name" : "&9-Hostel9",
+			"proxyserver" : "http://172.16.199.41",
+			"proxyport" : "8080"
+		}
+	]
+}

@@ -1,56 +1,44 @@
-$hostel = New-Object System.Management.Automation.Host.ChoiceDescription '&hostel', 'http://172.16.199.40:8080'
-$lib = New-Object System.Management.Automation.Host.ChoiceDescription '&library', 'http://172.16.199.20:8080'
-$h9 = New-Object System.Management.Automation.Host.ChoiceDescription '&hostel9', 'http://172.16.199.41:8080'
 $unset = New-Object System.Management.Automation.Host.ChoiceDescription '&unset', ''
 
-$options = [System.Management.Automation.Host.ChoiceDescription[]]($hostel, $lib, $h9, $unset)
+$JsonProfiles = Get-Content -Raw proxyservers.json | ConvertFrom-Json
+
+[System.Management.Automation.Host.ChoiceDescription[]]$options = ($unset)
+
+forEach($profile in $JsonProfiles.profiles){
+	$options += New-Object System.Management.Automation.Host.ChoiceDescription $profile.name, ($profile.proxyserver + ":" + $profile.proxyport)
+}
 
 function setproxy($proxyserver){
-		echo 'Setting Proxy to' $proxyserver;
-		echo 'Setting git proxy...';
+		Write-Output 'Setting Proxy to' $proxyserver;
+		Write-Output 'Setting git proxy...';
 		git config --global http.proxy $proxyserver;
 		git config --global https.proxy $proxyserver;
-		echo 'Done...';
-		echo 'Setting npm proxy...';
+		Write-Output 'Done...';
+		Write-Output 'Setting npm proxy...';
 		npm config set proxy $proxyserver;
-		echo 'Done...';
+		Write-Output 'Done...';
 }
 
 function unsetproxy{
-
-		echo 'Unsetting git proxy vars...';
+		Write-Output 'Unsetting git proxy vars...';
 		git config --global --unset http.proxy;
 		git config --global --unset https.proxy;
-		echo 'Done...';
-		echo 'Unsetting npm proxy vars...'
+		Write-Output 'Done...';
+		Write-Output 'Unsetting npm proxy vars...'
 		npm config rm proxy;
-		echo 'Done...';
+		Write-Output 'Done...';
 }
-
 
 function setproxyinteractive{
 	$title = 'Select Proxy Server: '
 	$message = 'Configure Proxies for: npm, git'
 	$result = $host.ui.PromptForChoice($title, $message, $options, 0)
-
-	switch($result){
-		0 {
-			setproxy("172.16.199.40:8080")
-		}
-
-		1 {
-			setproxy("172.16.199.20:8080")
-		}
-
-		2 {
-			setproxy("172.16.199.41:8080");
-		}
-		3 {
-			unsetproxy;
-		}
-
+	if($result -eq 0){
+		unsetproxy;
+	} 
+	elseif($result -in 1..$options.count){
+		setproxy($options[$result].HelpMessage)
 	}
-
 }
 
 $table = @{
@@ -59,15 +47,18 @@ $table = @{
 	"h9" = "http://172.16.199.41:8080"
 }
 
-$proxyserver=$args[0]
+$argv=$args[0]
 
-if($proxyserver -eq "unset"){
+if($argv -eq "unset"){
 	unsetproxy;
 }
-elseif($proxyserver -in $table.Keys){
+elseif($argv -in $table.Keys){
 	setproxy($table[$proxyserver])
 }
+elseif($argv -eq "list"){
+	Write-Output $table;
+}
 else{
-	echo "No proxy server found";
+	Write-Output "No proxy server found. Choose from below: ";
 	setproxyinteractive;
 }
