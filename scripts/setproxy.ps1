@@ -1,6 +1,11 @@
 $unset = New-Object System.Management.Automation.Host.ChoiceDescription '&Unset', ''
 [System.Management.Automation.Host.ChoiceDescription[]]$options = ($unset)
 $proxyserverspath = "$HOME\OneDrive\Documents\scripts\proxyservers.json"
+if (!(Test-Path $proxyserverspath)){
+	Write-Output "$proxyserverspath not found..."
+	Write-Output "Creating $proxyserverspath"
+	New-Item $proxyserverspath
+}
 $JsonProfiles = Get-Content -Raw $proxyserverspath | ConvertFrom-Json
 $argv=$args[0]
 $nicks = @{};
@@ -35,6 +40,9 @@ function create{
 	$nickname = Read-Host "Enter a nickname for Profile"
 	$proxyserver = Read-Host "Enter proxyserver"
 	$proxyport = Read-Host "Enter proxyport"
+	if($JsonProfiles.profiles -eq $null){
+		$JsonProfiles += @{"profiles" = @()}
+	}
 	$JsonProfiles.profiles += @(@{
 		"name" = "&" + $name
 		"nickname" = $nickname
@@ -43,7 +51,6 @@ function create{
 	})
 	$JsonProfiles | ConvertTo-Json | Set-Content $proxyserverspath
 	Write-Output "Profile saved in $proxyserverspath"
-
 }
 
 function setproxyinteractive{
@@ -64,6 +71,12 @@ forEach($profile  in $JsonProfiles.profiles){
 
 if($JsonProfiles.profiles.count -eq 0){
 	Write-Output "No Configs Available in $proxyserverspath"
+	$confirm = Read-Host "Do you want to create a new profile?[y/n]?"
+	if($confirm -eq "y"){
+		create
+		exit
+	}
+	exit
 }
 elseif($argv -eq "unset"){
 	unsetproxy;
@@ -81,6 +94,7 @@ elseif($argv -eq "list"){
 }
 elseif($argv -eq "create"){
 	create;
+	exit;
 }
 else{
 	Write-Output "No proxy server found. Choose from below: ";
