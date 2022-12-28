@@ -8,6 +8,13 @@
 6. [Oh My Posh](https://ohmyposh.dev/docs/)
 7. [Microsoft Powertoys](https://github.com/microsoft/PowerToys)
 
+## Optional (for Neovim plugins)
+1. [Lazygit](https://github.com/jesseduffield/lazygit#scoop-windows)
+2. [fd](https://github.com/sharkdp/fd)
+3. [pynvim](https://github.com/neovim/pynvim)
+4. [npm](https://github.com/npm/cli)
+5. [MingW build chain](https://community.chocolatey.org/packages/mingw)
+
 PS: I had some problems installing scoop using IWR/IRM. For some reason JioFiber's default DNS server was unable
 to resolve `raw.githubusercontent.com`. The fix was to change the DNS server in your computer manually to Google's
 DNS server(8.8.8.8). See [this](https://github.com/orgs/community/discussions/32889#discussioncomment-4320144) and [this](https://www.windowscentral.com/how-change-your-pcs-dns-settings-windows-10)
