@@ -1,5 +1,4 @@
 -- Basic Configurations
-
 vim.g.mapleader=" "
 
 vim.o.rnu=true;
@@ -18,8 +17,8 @@ vim.opt.shortmess:append('c')
 vim.opt.mouse:append('a')
 
 -- Keymappings
-
 vim.keymap.set('i', 'jj','<Esc>')
+vim.keymap.set('n', '<leader>w', '<c-w>')
 
 -- Quickly press <Leader> + ; to add ';'(semicolon) at EOL
 vim.keymap.set('n', '<Leader>;','mz$a;<Esc>`z')

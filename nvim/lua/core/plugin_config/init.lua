@@ -13,5 +13,11 @@ require("core.plugin_config.nvim-tree")
 -- Status Line
 require("core.plugin_config.lualine")
 
+-- Buffer Line
+require("core.plugin_config.bufferline")
+
+-- Autocomplete
+require("core.plugin_config.completions")
+
 -- Colorscheme
 require("core.plugin_config.oxacarbon")
