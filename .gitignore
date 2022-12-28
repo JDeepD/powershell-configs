@@ -3,4 +3,5 @@
 !Powershell/
 !scripts/
 !nvim/
+nvim/plugin
 !README.md

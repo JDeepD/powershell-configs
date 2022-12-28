@@ -7,8 +7,20 @@ function profile {
 	nvim $PROFILE
 }
 
-function init.vim {
-	nvim $HOME/Appdata/Local/nvim/init.vim
+function init.lua {
+	nvim $env:LOCALAPPDATA/nvim/init.lua
+}
+
+function plugins {
+	nvim $env:LOCALAPPDATA/nvim/lua/core/plugins.lua
+}
+
+function win10 {
+	cd $HOME/OneDrive/Documents/
+}
+
+function src {
+	. $PROFILE
 }
 
 function fopen {
