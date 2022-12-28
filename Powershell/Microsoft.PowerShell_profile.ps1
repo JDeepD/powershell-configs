@@ -1,6 +1,7 @@
 oh-my-posh init pwsh --config 'C:\Users\jayde\AppData\Local\Programs\oh-my-posh\themes\tiwahu.omp.json' | Invoke-Expression
 
 Set-Alias -Name c -Value clear
+Set-Alias -Name code -Value code`-insiders
 
 function profile {
 	nvim $PROFILE
