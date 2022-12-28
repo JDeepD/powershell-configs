@@ -19,8 +19,8 @@ function win10 {
 	cd $HOME/OneDrive/Documents/
 }
 
-function src {
-	. $PROFILE
+function nvc {
+	cd $env:LOCALAPPDATA/nvim/
 }
 
 function fopen {

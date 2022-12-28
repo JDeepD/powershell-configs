@@ -19,5 +19,14 @@ require("core.plugin_config.bufferline")
 -- Autocomplete
 require("core.plugin_config.completions")
 
+-- Colorizer
+require("core.plugin_config.colorizer")
+
+-- Dashboard
+require("core.plugin_config.dashboard")
+
+-- Colorscheme
+require("core.plugin_config.toggleterm")
+
 -- Colorscheme
 require("core.plugin_config.oxacarbon")
