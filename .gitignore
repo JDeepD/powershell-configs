@@ -2,6 +2,8 @@
 !.gitignore
 !Powershell/
 !scripts/
+*.exe
+*.dll
 !nvim/
 nvim/plugin
 !README.md

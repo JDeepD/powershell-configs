@@ -17,7 +17,7 @@ function setproxy($proxyserver){
 	git config --global https.proxy $proxyserver;
 	Write-Output 'Done...';
 	Write-Output 'Setting npm proxy...';
-	npm config set proxy $proxyserver;
+	npm config set -g proxy $proxyserver;
 	Write-Output 'Done...';
 }
 
@@ -27,7 +27,7 @@ function unsetproxy{
 	git config --global --unset https.proxy;
 	Write-Output 'Done...';
 	Write-Output 'Unsetting npm proxy vars...'
-	npm config rm proxy;
+	npm config -g rm proxy;
 	Write-Output 'Done...';
 }
 
