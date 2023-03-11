@@ -35,15 +35,18 @@ function fvim {
 
 function fcp {
   $from=$(fd | fzf  --pointer=' ' --border --info=inline --prompt='(Select file to copy) ▶ ' --color=fg+:#FFFFFF,bg+:#FF0000,gutter:-1 --exact)
+  if(!$from){
+    return
+  }
   $to=$(fd --type directory | fzf  --pointer=' ' --border --info=inline --prompt='(Select directory to paste) ▶ ' --color=fg+:#FFFFFF,bg+:#FF0000,gutter:-1 --exact)
 
-  if($from && $to){
+  if($to){
     Write-Host "Copying from: $from"
     Write-Host "Pasting to: $to"
     Copy-Item $from $to -Recurse
     Write-Host "Done"
   }else{
-    Write-Host "Missing from or to params..."
+    Write-Host "Missing directory to paste..."
   }
 }
 
@@ -63,6 +66,32 @@ function fcode {
 	if($dir){
       code $dir
   }
+}
+
+function fst {
+    $settings="ms-settings:network-proxy`nms-settings:network-ethernet`nms-settings:network-mobilehotspot"
+    $selection=$(echo $settings | fzf)
+    if($selection){
+      Start-Process $selection
+    }
+}
+
+function fpx {
+    $vals=@{
+        "Hostel8: 172.16.199.40:8080" = "h8"
+        "Hostel9: 172.16.199.41:8080" = "h9"
+        "Library: 172.16.199.20:8080" = "lib"
+        "unset: Remove all proxy" = "unset"
+      }
+    $settings = ""
+    foreach ($key in $vals.Keys) {
+      $settings += "$key`n"
+    }
+    echo $settings
+    $selection=$(echo $settings | fzf --pointer=' ' --border --info=inline --prompt='▶ ' --color=fg+:#FFFFFF,bg+:#FF0000,gutter:-1 --exact)
+    if($selection){
+      setproxy $vals[$selection]
+    }
 }
 
 # For zoxide v0.8.0+
