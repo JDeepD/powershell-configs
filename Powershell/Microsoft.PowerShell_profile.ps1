@@ -81,14 +81,13 @@ function fpx {
         "Hostel8: 172.16.199.40:8080" = "h8"
         "Hostel9: 172.16.199.41:8080" = "h9"
         "Library: 172.16.199.20:8080" = "lib"
-        "unset: Remove all proxy" = "unset"
+        "Unset: Remove all proxy configs" = "unset"
       }
     $settings = ""
     foreach ($key in $vals.Keys) {
       $settings += "$key`n"
     }
-    echo $settings
-    $selection=$(echo $settings | fzf --pointer=' ' --border --info=inline --prompt='▶ ' --color=fg+:#FFFFFF,bg+:#FF0000,gutter:-1 --exact)
+    $selection=$(echo $settings | fzf --height 40% --pointer=' ' --border --info=inline --prompt='▶ ' --color=fg+:#FFFFFF,bg+:#FF0000,gutter:-1 --exact)
     if($selection){
       setproxy $vals[$selection]
     }
