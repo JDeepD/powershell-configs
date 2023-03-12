@@ -41,12 +41,12 @@ function fcp {
   $to=$(fd --type directory | fzf  --pointer=' ' --border --info=inline --prompt='(Select directory to paste) ▶ ' --color=fg+:#FFFFFF,bg+:#FF0000,gutter:-1 --exact)
 
   if($to){
-    Write-Host "Copying from: $from"
-    Write-Host "Pasting to: $to"
+    Write-Output "Copying from: $from"
+    Write-Output "Pasting to: $to"
     Copy-Item $from $to -Recurse
-    Write-Host "Done"
+    Write-Output "Done"
   }else{
-    Write-Host "Missing directory to paste..."
+    Write-Output "Missing directory to paste..."
   }
 }
 
@@ -70,7 +70,7 @@ function fcode {
 
 function fst {
     $settings="ms-settings:network-proxy`nms-settings:network-ethernet`nms-settings:network-mobilehotspot"
-    $selection=$(echo $settings | fzf)
+    $selection=$(Write-Output $settings | fzf)
     if($selection){
       Start-Process $selection
     }
@@ -87,7 +87,7 @@ function fpx {
     foreach ($key in $vals.Keys) {
       $settings += "$key`n"
     }
-    $selection=$(echo $settings | fzf --height 40% --pointer=' ' --border --info=inline --prompt='▶ ' --color=fg+:#FFFFFF,bg+:#FF0000,gutter:-1 --exact)
+    $selection=$(Write-Output $settings | fzf --height 40% --pointer=' ' --border --info=inline --prompt='▶ ' --color=fg+:#FFFFFF,bg+:#FF0000,gutter:-1 --exact)
     if($selection){
       setproxy $vals[$selection]
     }
